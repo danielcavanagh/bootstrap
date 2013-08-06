@@ -60,6 +60,11 @@
 
       if (trigger == 'click') {
         this.$element.on('click.' + this.type, this.options.selector, $.proxy(this.toggle, this))
+        $(document).on('click.' + this.type, $.proxy(function (event) {
+          var $target = $(event.target),
+              $tip = this.tip()
+          if ($tip.hasClass('in') && $target.closest($tip).length === 0 && $target.closest(this.$element).length === 0) this.hide(event)
+        }, this))
       } else if (trigger != 'manual') {
         var eventIn  = trigger == 'hover' ? 'mouseenter' : 'focus'
         var eventOut = trigger == 'hover' ? 'mouseleave' : 'blur'
